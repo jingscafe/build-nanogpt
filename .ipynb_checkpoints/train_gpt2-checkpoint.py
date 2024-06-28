@@ -84,12 +84,12 @@ class GPT(nn.Module):
 
         # 
         self.transformer = nn.ModuleDict(dict( #index into submodules
-            wte = nn.Embedding(config.vocab_size, config.n_embd), #token/output embedding
+            wte = nn.Embedding(config.vocab_size, config.n_embd), #token embedding
             wpe = nn.Embedding(config.block_size, config.n_embd), #position embedding
-            h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]), # reflect number of layers in play.ipynb, block tbd
-            ln_f = nn.LayerNorm(config.n_embd), # final layer norm
+            h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
+            ln_f = nn.LayerNorm(config.n_embd),
         ))
-        self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False) # final classifier, linear section of transformer chart
+        self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
 
         # weight sharing scheme
         self.transformer.wte.weight = self.lm_head.weight
